@@ -2,24 +2,36 @@ const input_display = document.querySelector('.result');
 const button_all = document.querySelectorAll('.numpad > .number');
 const clear = document.querySelector('.ac');
 const button_op = document.querySelectorAll('.operator');
+const equal = document.querySelector('.equal');
 console.log(button_op);
 
 let first_num = '';
 let second_num = '';
+let btn_target = null;
 let operators = {
-    '+': function (a, b, c) { return a + b + c }
+    '+': function (a, b) { return a + b },
+    '-': function (a, b) { return a - b },
+    '/': function (a, b) { return a / b },
+    '*': function (a, b) { return a * b }
 };
 let btn_press = null;
 let saved_op = '';
+let result = null;
 
-
+/* const input = function(click_target, input_num, new_display_value){
+click_target = e.target.value;
+input_num += click_target;
+new_display_value.setAttribute('value', input_num);
+} */
 
 for (btn_press of button_all) {
     btn_press.addEventListener('click', (e) => {
         if (saved_op !== '') {
-            console.log('Now second number')
+            btn_target = e.target.value;
+            second_num += btn_target;
+            input_display.setAttribute('value', second_num);
         } else {
-            let btn_target = e.target.value;
+            btn_target = e.target.value;
             first_num += btn_target;
             input_display.setAttribute('value', first_num);
         }
@@ -37,11 +49,22 @@ for (const op_press of button_op) {
 
 clear.addEventListener('click', () => {
     first_num = '';
+    second_num = '';
     saved_op = '';
     input_display.setAttribute('value', first_num);
 })
 
+equal.addEventListener('click', () => {
+    result = operators[saved_op](parseFloat(first_num), parseFloat(second_num));
+    console.log(result);
+    input_display.setAttribute('value', result);
+    first_num = '';
+    second_num = '';
+    saved_op = '';
+
+});
+
 
 
 //Notes: 
-//Let the numbers be strings so they concatenate. When equal button pressed use parseInt()
+//Let the numbers be strings so they concatenate. When equal button pressed use parseFloat()
