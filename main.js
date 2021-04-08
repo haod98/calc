@@ -3,8 +3,6 @@ const button_all = document.querySelectorAll('.numpad > .number');
 const clear = document.querySelector('.ac');
 const button_op = document.querySelectorAll('.operator');
 const equal = document.querySelector('.equal');
-console.log(button_op);
-
 let first_num = '';
 let second_num = '';
 let btn_target = null;
@@ -18,11 +16,11 @@ let btn_press = null;
 let saved_op = '';
 let result = null;
 
-/* const input = function(click_target, input_num, new_display_value){
-click_target = e.target.value;
-input_num += click_target;
-new_display_value.setAttribute('value', input_num);
-} */
+/* const input = function (e, click_target, input_num, new_display_value) {
+    click_target = e.target.value;
+    input_num += click_target;
+    new_display_value.setAttribute('value', input_num);
+}; */
 
 for (btn_press of button_all) {
     btn_press.addEventListener('click', (e) => {
@@ -42,8 +40,13 @@ for (const op_press of button_op) {
     op_press.addEventListener('click', (e) => {
         const op_target = e.target.value;
         saved_op = op_target;
-
-    })
+        if (first_num !== '' && second_num !== '') {
+            console.log('You are in')
+            first_num = operators[saved_op](parseFloat(first_num), parseFloat(second_num));
+            second_num = '';
+            input_display.setAttribute('value', first_num);
+        };
+    });
 };
 
 
