@@ -36,6 +36,56 @@ for (btn_press of button_all) {
     });
 };
 
+//Numpad controll 
+const valid_num = '0123546789';
+const valid_op = '+-/*';
+window.addEventListener('keyup', e => {
+    console.log(e)
+    if (valid_num.indexOf(e.key) !== -1) {
+        if (saved_op !== '') {
+            btn_target = e.key;
+            second_num += btn_target;
+            input_display.setAttribute('value', second_num);
+        } else {
+            btn_target = e.key;
+            first_num += btn_target;
+            input_display.setAttribute('value', first_num);
+        };
+    };
+    if (first_num !== '') {
+        if (valid_op.indexOf(e.key) !== -1) {
+            const op_target = e.key;
+            saved_op = op_target;
+            if (first_num !== '' && second_num !== '') {
+                console.log('You are in')
+                first_num = operators[saved_op](parseFloat(first_num), parseFloat(second_num));
+                second_num = '';
+                input_display.setAttribute('value', first_num);
+            };
+        };
+    };
+    if (e.key === 'Enter') {
+        if (first_num === '' || second_num === '') {
+            input_display.setAttribute('value', 'Error');
+        } else {
+            result = operators[saved_op](parseFloat(first_num), parseFloat(second_num));
+            console.log(result);
+            input_display.setAttribute('value', result);
+            first_num = '';
+            second_num = '';
+            saved_op = '';
+        };
+    };
+
+    if (e.key === 'Delete') {
+        first_num = '';
+        second_num = '';
+        saved_op = '';
+        input_display.setAttribute('value', first_num);
+
+    };
+});
+
 for (const op_press of button_op) {
     op_press.addEventListener('click', (e) => {
         const op_target = e.target.value;
