@@ -32,7 +32,7 @@ for (btn_press of button_all) {
             btn_target = e.target.value;
             first_num += btn_target;
             input_display.setAttribute('value', first_num);
-        }
+        };
     });
 };
 
@@ -58,13 +58,16 @@ clear.addEventListener('click', () => {
 })
 
 equal.addEventListener('click', () => {
-    result = operators[saved_op](parseFloat(first_num), parseFloat(second_num));
-    console.log(result);
-    input_display.setAttribute('value', result);
-    first_num = '';
-    second_num = '';
-    saved_op = '';
-
+    if (first_num === '' || second_num === '') {
+        input_display.setAttribute('value', 'Error');
+    } else {
+        result = operators[saved_op](parseFloat(first_num), parseFloat(second_num));
+        console.log(result);
+        input_display.setAttribute('value', result);
+        first_num = '';
+        second_num = '';
+        saved_op = '';
+    }
 });
 
 
